@@ -1,0 +1,65 @@
+import QtQuick 2.5
+import QtQuick.Window 2.2
+Window {
+    visible: true
+    width: Screen.width
+    height: Screen.height - 10
+
+    Item {
+        visible: true
+        width: Screen.width
+        height: Screen.height - 10
+        focus: true
+        Keys.onPressed: {
+            if (event.key === Qt.Key_Up){
+                event.accepted = true;
+                car.y = (car.y) - 30
+            }
+            if (event.key === Qt.Key_Down){
+                event.accepted = true;
+                car.y = (car.y) + 30
+            }
+            if (event.key === Qt.Key_Right){
+                event.accepted = true;
+                car.x = (car.x) + 30
+            }
+            if (event.key === Qt.Key_Left){
+                event.accepted = true;
+                car.x = (car.x) - 30
+            }
+        }
+
+        Flickable {
+            id: flick
+            x: 10
+            y: -10
+            width: Screen.width
+            height: Screen.height
+            contentWidth: Screen.width
+            contentHeight: Screen.height * 4
+            interactive: true
+            boundsBehavior: Flickable.StopAtBounds
+
+            contentY: Math.min(contentHeight - height), Math.max(0,car.y - height / 2)
+
+            Image {
+                id: field
+                anchors.fill:parent
+                source: "picture/road.jpg"
+                sourceSize.height: flick.height
+                sourceSize.width: flick.width
+            }
+
+            Image {
+                id: car
+                source: "picture/car.jpg"
+                x: Screen.width / 2
+                y: Screen.height / 2
+                width: 151
+                height: 370
+                sourceSize.height: -17
+                sourceSize.width: -21
+                fillMode: Image.Tile
+            }
+        }
+    }
